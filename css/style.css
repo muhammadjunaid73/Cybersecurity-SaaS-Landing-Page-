@@ -8,7 +8,13 @@
 }
 
 html {
-  scroll-behavior: smooth;
+  scroll-padding-top: var(--header-height);   /* anchors no longer hide under sticky header */
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
 }
 
 body {
@@ -21,6 +27,7 @@ body {
 
 img {
   max-width: 100%;
+  height: auto;
   display: block;
 }
 
@@ -42,6 +49,7 @@ ul {
 h1 {
   font-size: var(--font-heading);
   color: var(--color-dark);
+  line-height: 1.2;
 }
 
 h2 {
@@ -60,14 +68,18 @@ section {
 .btn {
   display: inline-block;
   padding: 14px 28px;
+  border: 2px solid transparent;
   border-radius: var(--radius-round);
   transition: var(--transition);
+  font-family: inherit;
+  font-size: 1rem;
   font-weight: var(--fw-bold);
+  cursor: pointer;
 }
 
 .btn-primary {
   background: var(--color-primary);
-  color: #ffffff;
+  color: var(--color-on-primary);
 }
 
 .btn-primary:hover {
@@ -77,12 +89,12 @@ section {
 .btn-secondary {
   background: transparent;
   color: var(--color-primary);
-  border: 2px solid var(--color-primary);
+  border-color: var(--color-primary);
 }
 
 .btn-secondary:hover {
   background: var(--color-primary);
-  color: #fff;
+  color: var(--color-on-primary);
 }
 
 .card,
@@ -93,12 +105,45 @@ section {
   box-shadow: var(--shadow-sm);
 }
 
-a:focus,
-button:focus,
-input:focus,
-textarea:focus {
+/* Hover lift: one shared rule instead of two copies */
+.card,
+.price-card {
+  transition: var(--transition);
+}
+
+.card:hover,
+.price-card:hover {
+  transform: translateY(-10px);
+  box-shadow: var(--shadow-lg);
+}
+
+/* Keyboard focus only (no ring on mouse click) */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible {
   outline: 3px solid var(--color-primary);
   outline-offset: 3px;
+}
+
+.footer a:focus-visible {
+  outline-color: #ffffff;
+}
+
+.skip-link {
+  position: absolute;
+  left: 1rem;
+  top: -100px;
+  z-index: 2000;
+  padding: 0.75rem 1.25rem;
+  background: var(--color-primary);
+  color: var(--color-on-primary);
+  border-radius: var(--radius-sm);
+  font-weight: var(--fw-bold);
+}
+
+.skip-link:focus {
+  top: 1rem;
 }
 
 /* ===========================
@@ -116,7 +161,8 @@ textarea:focus {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  min-height: 80px;
+  gap: 1rem;
+  min-height: var(--header-height);
 }
 
 .logo {
@@ -134,21 +180,86 @@ textarea:focus {
   font-weight: var(--fw-medium);
   color: var(--color-dark);
   transition: var(--transition);
+  padding: 0.25rem 0;
+  border-bottom: 2px solid transparent;
 }
 
-.nav a:hover {
+.nav a:hover,
+.nav a[aria-current="true"] {
+  color: var(--color-primary);
+  border-bottom-color: var(--color-primary);
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  background: transparent;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-round);
+  color: var(--color-dark);
+  font-size: 1.3rem;
+  line-height: 1;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.icon-btn:hover {
+  border-color: var(--color-primary);
   color: var(--color-primary);
 }
 
-#menu-toggle {
-  display: none;
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
 }
 
 .hamburger {
   display: none;
-  font-size: 2rem;
-  cursor: pointer;
-  color: var(--color-primary);
+}
+
+/* Fixed, invisible anchor: linking to it closes the menu without scrolling the page */
+.menu-anchor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 1px;
+  height: 1px;
+  pointer-events: none;
+}
+
+/* Focus ring for the hidden dark-mode checkbox, shown on its label */
+body:has(#theme-toggle:focus-visible) .theme-toggle {
+  outline: 3px solid var(--color-primary);
+  outline-offset: 3px;
+}
+
+/* Icon swap (CSS only) */
+.theme-toggle .icon-dark {
+  display: none;
+}
+
+:root:has(#theme-toggle:checked) .theme-toggle .icon-light {
+  display: none;
+}
+
+:root:has(#theme-toggle:checked) .theme-toggle .icon-dark {
+  display: inline;
 }
 
 /* ===========================
@@ -156,6 +267,7 @@ textarea:focus {
 =========================== */
 .hero {
   min-height: 100vh;
+  min-height: 100svh;      /* stable on mobile browsers with collapsing address bars */
   display: flex;
   align-items: center;
 }
@@ -185,7 +297,10 @@ textarea:focus {
 
 .hero-image img {
   width: 100%;
-  animation: float 5s ease-in-out infinite;
+}
+
+:root:has(#theme-toggle:checked) .hero-image img {
+  filter: invert(1) hue-rotate(180deg) brightness(0.95);
 }
 
 /* ===========================
@@ -215,18 +330,20 @@ textarea:focus {
 .card {
   padding: 2rem;
   text-align: center;
-  transition: var(--transition);
-}
-
-.card:hover {
-  transform: translateY(-10px);
-  box-shadow: var(--shadow-lg);
 }
 
 .card img {
-  width: 70px;
-  margin: auto;
-  margin-bottom: 1.5rem;
+  display: block;
+  width: 80px;                 /* matches width="80" in HTML */
+  height: 80px;
+  margin: 0 auto 1.5rem;       /* centers the icon above the heading */
+  object-fit: contain;
+  object-position: center;
+}
+
+/* Dark mode: black icons become white */
+:root:has(#theme-toggle:checked) .card img {
+  filter: invert(1);
 }
 
 .card h3 {
@@ -255,12 +372,6 @@ textarea:focus {
   padding: 2rem;
   text-align: center;
   position: relative;
-  transition: var(--transition);
-}
-
-.price-card:hover {
-  transform: translateY(-10px);
-  box-shadow: var(--shadow-lg);
 }
 
 .price-card h3 {
@@ -269,7 +380,7 @@ textarea:focus {
 
 .price-amount {
   font-size: 2rem;
-  font-weight: bold;
+  font-weight: var(--fw-bold);
   color: var(--color-primary);
   margin-bottom: 1.5rem;
 }
@@ -298,10 +409,12 @@ textarea:focus {
   left: 50%;
   transform: translateX(-50%);
   background: var(--color-primary);
-  color: #fff;
+  color: var(--color-on-primary);
   padding: 0.5rem 1rem;
   border-radius: 30px;
   font-size: 0.85rem;
+  font-weight: var(--fw-bold);
+  white-space: nowrap;
 }
 
 /* ===========================
@@ -320,6 +433,12 @@ textarea:focus {
 
 .testimonial {
   padding: 2rem;
+}
+
+.rating {
+  color: var(--color-star);
+  letter-spacing: 0.15em;
+  font-size: 1.25rem;
 }
 
 .testimonial blockquote {
@@ -352,6 +471,7 @@ textarea {
   background: var(--color-card);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-sm);
+  font-family: inherit;
   font-size: 1rem;
 }
 
@@ -363,14 +483,14 @@ textarea {
     FOOTER SECTION
 =========================== */
 .footer {
-  background: var(--color-dark);
+  background: var(--color-footer);
   color: #ffffff;
   text-align: center;
   padding: 3rem 0;
 }
 
 .footer h3 {
-  color: #fff;
+  color: #ffffff;
   margin-bottom: 1rem;
 }
 
@@ -383,82 +503,147 @@ textarea {
 }
 
 .footer-links a {
-  color: #fff;
+  color: #ffffff;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  text-decoration-color: transparent;
+  transition: var(--transition);
 }
 
 .footer-links a:hover {
-  color: var(--color-primary);
+  text-decoration-color: #ffffff;
 }
 
 .copyright {
   font-size: 0.9rem;
-  opacity: 0.8;
+  opacity: 0.85;
 }
 
 /* ===========================
-    ANIMATIONS
+    MOTION (all optional)
 =========================== */
 @keyframes float {
-  0% { transform: translateY(0); }
-  50% { transform: translateY(-15px); }
-  100% { transform: translateY(0); }
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-15px); }
 }
 
 @keyframes fadeUp {
   from { opacity: 0; transform: translateY(40px); }
-  to { opacity: 1; transform: translateY(0); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
-.hero, .features, .card {
-  animation: fadeUp 1s ease;
+@media (prefers-reduced-motion: no-preference) {
+  /* One load-in moment for the hero only */
+  .hero-text {
+    animation: fadeUp 0.9s ease both;
+  }
+
+  .hero-image img {
+    animation: float 5s ease-in-out infinite;
+  }
+
+}
+
+/* Scroll reveal, pure CSS. Browsers without support just show the content. */
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) {
+    .reveal {
+      animation: fadeUp linear backwards;
+      animation-timeline: view();
+      animation-range: entry 0% entry 35%;
+    }
+  }
 }
 
 /* ===========================
     MEDIA QUERIES
 =========================== */
-@media(max-width: 768px) {
-  .hamburger {
-      display: block;
+@media (max-width: 768px) {
+  /* Menu is open only while #primary-nav is the URL target.
+     Clicking any nav link changes the target, so the menu closes by itself. */
+  .hamburger-open {
+    display: inline-flex;
   }
+
+  .header:has(#primary-nav:target) .hamburger-open {
+    display: none;
+  }
+
+  .header:has(#primary-nav:target) .hamburger-close {
+    display: inline-flex;
+  }
+
   .nav {
-      display: none;
-      position: absolute;
-      top: 80px;
-      left: 0;
-      width: 100%;
-      background: var(--color-light);
-      box-shadow: var(--shadow-md);
+    display: none;
+    position: absolute;
+    top: var(--header-height);
+    left: 0;
+    width: 100%;
+    background: var(--color-light);
+    box-shadow: var(--shadow-md);
   }
+
+  .nav:target {
+    display: block;
+  }
+
   .nav ul {
-      flex-direction: column;
-      text-align: center;
-      padding: 2rem;
+    flex-direction: column;
+    text-align: center;
+    gap: 1rem;
+    padding: 2rem;
   }
-  #menu-toggle:checked ~ .nav {
-      display: block;
-  }
+
   .hero-content {
-      grid-template-columns: 1fr;
-      text-align: center;
+    grid-template-columns: 1fr;
+    text-align: center;
   }
+
+  .hero-text p {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
   .hero-buttons {
-      justify-content: center;
+    justify-content: center;
   }
+
   .hero-image {
-      order: -1;
+    order: -1;
   }
 }
 
-@media(max-width: 480px) {
+@media (max-width: 480px) {
   .section-title {
-      font-size: 1.8rem;
+    font-size: 1.8rem;
   }
-  .btn {
-      width: 100%;
-      text-align: center;
+
+  /* Full-width only where it helps, not on every .btn */
+  .hero-buttons .btn,
+  .price-card .btn,
+  .contact .btn {
+    width: 100%;
+    text-align: center;
   }
+
   .hero {
-      min-height: auto;
-      padding: 4rem 0;
+    min-height: auto;
+    padding: 4rem 0;
+  }
+}
+
+/* Reduced motion: switch everything off */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+
+  .card:hover,
+  .price-card:hover {
+    transform: none;
   }
 }

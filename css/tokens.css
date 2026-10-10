@@ -3,50 +3,42 @@
 ========================== */
 
 :root {
-  /* Colors - Updated for better contrast */
+  color-scheme: light;
+
+  /* Colors */
   --color-primary: #0062D2;
   --color-primary-dark: #004B9B;
-  --color-secondary: #008A38;
+  --color-on-primary: #ffffff;
 
-  --color-dark: #0B132B;
-  --color-light: #ffffff;
-
+  --color-dark: #0B132B;      /* headings / strong text */
+  --color-light: #ffffff;     /* alternate section surface (header, features, testimonials) */
   --color-bg: #F4F6F9;
-
-  --color-text: #212529;
-  --color-muted: #535A60; 
-
-  --color-border: #6C757D; 
-
   --color-card: #ffffff;
 
-  --color-success: #15803d;
-  --color-danger: #b91c1c; 
+  --color-text: #212529;
+  --color-muted: #535A60;
+  --color-border: #6C757D;
+
+  --color-footer: #0B132B;    /* footer stays dark in both themes */
+  --color-star: #B45309;
 
   /* Typography */
   --font-family: Arial, Helvetica, sans-serif;
   --font-heading: clamp(2rem, 5vw, 4rem);
   --font-subheading: clamp(1.5rem, 3vw, 2.5rem);
   --font-body: clamp(1rem, 2vw, 1.15rem);
-  --font-small: 0.9rem;
 
-  /* Font Weight */
-  --fw-light: 300;
-  --fw-normal: 400;
+  /* Font weight */
   --fw-medium: 500;
   --fw-bold: 700;
 
   /* Spacing */
-  --space-xs: 0.5rem;
-  --space-sm: 1rem;
-  --space-md: 2rem;
-  --space-lg: 4rem;
   --space-xl: 6rem;
+  --header-height: 80px;
 
   /* Radius */
   --radius-sm: 6px;
   --radius-md: 12px;
-  --radius-lg: 20px;
   --radius-round: 50px;
 
   /* Shadow */
@@ -61,12 +53,23 @@
   --container: 1200px;
 }
 
-/* Dark Theme Tokens */
-.dark {
-  --color-bg: #0b0f19;
+/* Dark theme: CSS-only, switched by the #theme-toggle checkbox */
+:root:has(#theme-toggle:checked) {
+  color-scheme: dark;
+
+  --color-primary: #5AA2FF;        /* lighter blue so it passes contrast on dark */
+  --color-primary-dark: #8CBBFF;   /* hover state gets lighter in dark mode */
+  --color-on-primary: #04122B;
+
+  --color-dark: #F8FAFC;
+  --color-light: #111827;
+  --color-bg: #0B0F19;
   --color-card: #162032;
-  --color-dark: #f8fafc;
-  --color-text: #f1f5f9;
-  --color-muted: #94a3b8;
-  --color-border: #475569;
+
+  --color-text: #F1F5F9;
+  --color-muted: #A5B4C8;
+  --color-border: #64748B;
+
+  --color-star: #FBBF24;
+  /* --color-footer is intentionally not overridden */
 }

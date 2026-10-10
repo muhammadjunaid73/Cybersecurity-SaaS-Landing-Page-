@@ -5,7 +5,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="CyberShield - Secure your business with modern cybersecurity solutions.">
+    <meta name="theme-color" content="#0062D2">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="CyberShield | Cybersecurity SaaS">
+    <meta property="og:description"
+        content="AI-powered monitoring, threat detection and data encryption for modern businesses.">
+    <meta property="og:image" content="images/hero.svg">
     <title>CyberShield | Cybersecurity SaaS</title>
+
+    <link rel="icon"
+        href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%9B%A1%3C/text%3E%3C/svg%3E">
 
     <link rel="stylesheet" href="css/tokens.css">
     <link rel="stylesheet" href="css/style.css">
@@ -14,21 +23,23 @@
 
 <body>
 
+    <!-- CSS-only dark mode switch (no JavaScript) -->
+    <input type="checkbox" id="theme-toggle" class="visually-hidden" aria-label="Dark mode">
+
+    <a href="#main" class="skip-link">Skip to main content</a>
+
     <!-- Header -->
     <header class="header">
         <div class="container">
-            <a href="#" class="logo">
-                🛡 CyberShield
+            <!-- Invisible fixed anchor used by the close button -->
+            <span id="menu-closed" class="menu-anchor"></span>
+
+            <a href="#home" class="logo">
+                <span aria-hidden="true">🛡</span> CyberShield
             </a>
 
-            <!-- Mobile Navigation -->
-            <input type="checkbox" id="menu-toggle">
-
-            <label for="menu-toggle" class="hamburger">
-                ☰
-            </label>
-
-            <nav class="nav">
+            <!-- CSS-only mobile menu: open via :target, closes on any link click -->
+            <nav class="nav" id="primary-nav" aria-label="Main">
                 <ul>
                     <li><a href="#home">Home</a></li>
                     <li><a href="#features">Features</a></li>
@@ -37,11 +48,29 @@
                     <li><a href="#contact">Contact</a></li>
                 </ul>
             </nav>
+
+            <div class="header-actions">
+                <label for="theme-toggle" class="icon-btn theme-toggle" title="Toggle dark mode">
+                    <span class="icon-light" aria-hidden="true">🌙</span>
+                    <span class="icon-dark" aria-hidden="true">☀️</span>
+                    <span class="visually-hidden">Toggle dark mode</span>
+                </label>
+
+                <a href="#primary-nav" class="icon-btn hamburger hamburger-open" aria-label="Open menu"
+                    aria-controls="primary-nav">
+                    <span aria-hidden="true">☰</span>
+                </a>
+
+                <a href="#menu-closed" class="icon-btn hamburger hamburger-close" aria-label="Close menu"
+                    aria-controls="primary-nav">
+                    <span aria-hidden="true">✕</span>
+                </a>
+            </div>
         </div>
     </header>
 
-    <!-- Hero -->
-    <main>
+    <main id="main">
+        <!-- Hero -->
         <section id="home" class="hero">
             <div class="container hero-content">
                 <div class="hero-text">
@@ -53,129 +82,101 @@
                         threat detection and data encryption.
                     </p>
                     <div class="hero-buttons">
-                        <a href="#pricing" class="btn btn-primary">
-                            Start Free Trial
-                        </a>
-                        <a href="#features" class="btn btn-secondary">
-                            Learn More
-                        </a>
+                        <a href="#pricing" class="btn btn-primary">Start Free Trial</a>
+                        <a href="#features" class="btn btn-secondary">Learn More</a>
                     </div>
                 </div>
 
                 <div class="hero-image">
-                    <img src="images/hero.svg" alt="Cybersecurity Illustration" width="600" height="500">
+                    <img src="images/hero.svg" alt="Cybersecurity Illustration" width="600" height="500"
+                        fetchpriority="high">
                 </div>
             </div>
         </section>
 
         <!-- Features -->
-        <section id="features" class="features">
+        <section id="features" class="features" aria-labelledby="features-title">
             <div class="container">
-                <h2 class="section-title">
-                    Our Security Features
-                </h2>
-                <p class="section-text">
-                    Powerful tools to keep your business protected.
-                </p>
+                <h2 class="section-title reveal" id="features-title">Our Security Features</h2>
+                <p class="section-text reveal">Powerful tools to keep your business protected.</p>
 
                 <div class="feature-grid">
-                    <article class="card">
-                        <img src="images/shield.svg" alt="Threat Detection" width="80" height="80">
+                    <article class="card reveal">
+                        <img src="images/shield.svg" alt="" width="80" height="80" loading="lazy">
                         <h3>Threat Detection</h3>
-                        <p>
-                            Detect cyber attacks before they become dangerous using intelligent monitoring.
-                        </p>
+                        <p>Detect cyber attacks before they become dangerous using intelligent monitoring.</p>
                     </article>
 
-                    <article class="card">
-                        <img src="images/encryption.svg" alt="Data Encryption" width="80" height="80">
+                    <article class="card reveal">
+                        <img src="images/encryption.svg" alt="" width="80" height="80" loading="lazy">
                         <h3>Data Encryption</h3>
-                        <p>
-                            Keep your sensitive files protected with enterprise-grade encryption.
-                        </p>
+                        <p>Keep your sensitive files protected with enterprise-grade encryption.</p>
                     </article>
-                    
 
-                    <article class="card">
-                        <img src="images/monitoring.svg" alt="24 Hour Monitoring" width="80" height="80">
+                    <article class="card reveal">
+                        <img src="images/monitoring.svg" alt="" width="80" height="80" loading="lazy">
                         <h3>24/7 Monitoring</h3>
-                        <p>
-                            Continuous monitoring keeps your systems safe around the clock.
-                        </p>
+                        <p>Continuous monitoring keeps your systems safe around the clock.</p>
                     </article>
                 </div>
             </div>
         </section>
 
-        <!-- Pricing Section -->
-        <section id="pricing" class="pricing">
+        <!-- Pricing -->
+        <section id="pricing" class="pricing" aria-labelledby="pricing-title">
             <div class="container">
-                <h2 class="section-title">
-                    Choose Your Plan
-                </h2>
-                <p class="section-text">
-                    Flexible pricing for businesses of every size.
-                </p>
+                <h2 class="section-title reveal" id="pricing-title">Choose Your Plan</h2>
+                <p class="section-text reveal">Flexible pricing for businesses of every size.</p>
 
                 <div class="pricing-grid">
-                    <article class="price-card">
+                    <article class="price-card reveal">
                         <h3>Starter</h3>
                         <div class="price-amount">$19<span>/month</span></div>
                         <ul>
-                            <li>✔ Security Dashboard</li>
-                            <li>✔ Threat Monitoring</li>
-                            <li>✔ Weekly Reports</li>
-                            <li>✔ Email Support</li>
+                            <li><span aria-hidden="true">✔</span> Security Dashboard</li>
+                            <li><span aria-hidden="true">✔</span> Threat Monitoring</li>
+                            <li><span aria-hidden="true">✔</span> Weekly Reports</li>
+                            <li><span aria-hidden="true">✔</span> Email Support</li>
                         </ul>
-                        <a href="#" class="btn btn-primary">
-                            Get Started
-                        </a>
+                        <a href="#contact" class="btn btn-primary">Get Started</a>
                     </article>
 
-                    <article class="price-card featured">
-                        <span class="badge">
-                            Most Popular
-                        </span>
+                    <article class="price-card featured reveal">
+                        <span class="badge">Most Popular</span>
                         <h3>Professional</h3>
                         <div class="price-amount">$49<span>/month</span></div>
                         <ul>
-                            <li>✔ Everything in Starter</li>
-                            <li>✔ API Access</li>
-                            <li>✔ Team Management</li>
-                            <li>✔ 24/7 Priority Support</li>
+                            <li><span aria-hidden="true">✔</span> Everything in Starter</li>
+                            <li><span aria-hidden="true">✔</span> API Access</li>
+                            <li><span aria-hidden="true">✔</span> Team Management</li>
+                            <li><span aria-hidden="true">✔</span> 24/7 Priority Support</li>
                         </ul>
-                        <a href="#" class="btn btn-primary">
-                            Start Free Trial
-                        </a>
+                        <a href="#contact" class="btn btn-primary">Start Free Trial</a>
                     </article>
 
-                    <article class="price-card">
+                    <article class="price-card reveal">
                         <h3>Enterprise</h3>
                         <div class="price-amount">Custom</div>
                         <ul>
-                            <li>✔ Unlimited Users</li>
-                            <li>✔ Dedicated Manager</li>
-                            <li>✔ Advanced Analytics</li>
-                            <li>✔ Custom Integrations</li>
+                            <li><span aria-hidden="true">✔</span> Unlimited Users</li>
+                            <li><span aria-hidden="true">✔</span> Dedicated Manager</li>
+                            <li><span aria-hidden="true">✔</span> Advanced Analytics</li>
+                            <li><span aria-hidden="true">✔</span> Custom Integrations</li>
                         </ul>
-                        <a href="#" class="btn btn-primary">
-                            Contact Sales
-                        </a>
+                        <a href="#contact" class="btn btn-primary">Contact Sales</a>
                     </article>
                 </div>
             </div>
         </section>
 
         <!-- Testimonials -->
-        <section id="testimonials" class="testimonials">
+        <section id="testimonials" class="testimonials" aria-labelledby="testimonials-title">
             <div class="container">
-                <h2 class="section-title">
-                    What Our Clients Say
-                </h2>
+                <h2 class="section-title reveal" id="testimonials-title">What Our Clients Say</h2>
 
                 <div class="testimonial-grid">
-                    <article class="testimonial">
-                        <p class="rating" aria-label="5 out of 5 stars">⭐⭐⭐⭐⭐</p>
+                    <article class="testimonial reveal">
+                        <p class="rating" role="img" aria-label="5 out of 5 stars">★★★★★</p>
                         <blockquote>
                             CyberShield helped us protect our company from online attacks. The dashboard is simple and
                             reliable.
@@ -183,8 +184,8 @@
                         <h3>Ali Khan</h3>
                     </article>
 
-                    <article class="testimonial">
-                        <p class="rating" aria-label="5 out of 5 stars">⭐⭐⭐⭐⭐</p>
+                    <article class="testimonial reveal">
+                        <p class="rating" role="img" aria-label="5 out of 5 stars">★★★★★</p>
                         <blockquote>
                             Excellent customer support and powerful security features.
                         </blockquote>
@@ -195,25 +196,26 @@
         </section>
 
         <!-- Contact -->
-        <section id="contact" class="contact">
+        <section id="contact" class="contact" aria-labelledby="contact-title">
             <div class="container">
-                <h2 class="section-title">
-                    Contact Us
-                </h2>
+                <h2 class="section-title reveal" id="contact-title">Contact Us</h2>
 
-                <form>
+                <!--
+                    No JavaScript: set action to your Formspree endpoint,
+                    or use action="mailto:you@example.com" with enctype="text/plain".
+                -->
+                <form class="reveal" action="https://formspree.io/f/xaeqjodd" method="POST">
                     <label for="name">Full Name</label>
-                    <input type="text" id="name" placeholder="Enter your name" required>
+                    <input type="text" id="name" name="name" placeholder="Enter your name" autocomplete="name" required>
 
                     <label for="email">Email Address</label>
-                    <input type="email" id="email" placeholder="Enter your email" required>
+                    <input type="email" id="email" name="email" placeholder="Enter your email" autocomplete="email"
+                        required>
 
                     <label for="message">Message</label>
-                    <textarea id="message" rows="6" placeholder="Write your message" required></textarea>
+                    <textarea id="message" name="message" rows="6" placeholder="Write your message" required></textarea>
 
-                    <button class="btn btn-primary" type="submit">
-                        Send Message
-                    </button>
+                    <button class="btn btn-primary" type="submit">Send Message</button>
                 </form>
             </div>
         </section>
@@ -222,19 +224,15 @@
     <!-- Footer -->
     <footer class="footer">
         <div class="container">
-            <h3>🛡 CyberShield</h3>
-            <p>
-                Protecting businesses with modern cybersecurity solutions.
-            </p>
-            <div class="footer-links">
+            <h3><span aria-hidden="true">🛡</span> CyberShield</h3>
+            <p>Protecting businesses with modern cybersecurity solutions.</p>
+            <nav class="footer-links" aria-label="Footer">
                 <a href="#home">Home</a>
                 <a href="#features">Features</a>
                 <a href="#pricing">Pricing</a>
                 <a href="#contact">Contact</a>
-            </div>
-            <p class="copyright">
-                © 2026 CyberShield. All Rights Reserved.
-            </p>
+            </nav>
+            <p class="copyright">© 2026 CyberShield. All Rights Reserved.</p>
         </div>
     </footer>
 

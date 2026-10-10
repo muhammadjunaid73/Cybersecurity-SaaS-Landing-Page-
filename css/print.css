@@ -1,98 +1,70 @@
-/* ===================================
-    PRINT STYLESHEET
-    CyberShield SaaS Landing Page
-=================================== */
-
+/* ==========================
+   CyberShield Print Styles
+========================== */
 @media print {
+  :root,
+  :root:has(#theme-toggle:checked) {
+    --color-bg: #ffffff;
+    --color-light: #ffffff;
+    --color-card: #ffffff;
+    --color-text: #000000;
+    --color-dark: #000000;
+    --color-muted: #333333;
+  }
 
-    * {
-        background: #ffffff !important;
-        color: #000000 !important;
-        box-shadow: none !important;
-        text-shadow: none !important;
-    }
+  body {
+    font-size: 12pt;
+    line-height: 1.5;
+    background: #ffffff;
+    color: #000000;
+  }
 
-    html,
-    body {
-        font-size: 12pt;
-        line-height: 1.6;
-    }
+  .header,
+  .skip-link,
+  .hero-buttons,
+  .contact,
+  .btn {
+    display: none !important;
+  }
 
-    /* Hide unnecessary items */
-    .header,
-    .hamburger,
-    #menu-toggle,
-    .hero-buttons,
-    .footer,
-    button {
-        display: none !important;
-    }
+  section {
+    padding: 1.5rem 0;
+    break-inside: avoid;
+  }
 
-    /* Show links */
-    a {
-        color: #000;
-        text-decoration: underline;
-    }
+  .hero {
+    min-height: auto;
+  }
 
-    /* Remove large spacing */
-    section {
-        padding: 20px 0;
-        page-break-inside: avoid;
-    }
+  .hero-content,
+  .feature-grid,
+  .pricing-grid,
+  .testimonial-grid {
+    display: block;
+  }
 
-    /* Single column layout */
-    .hero-content,
-    .feature-grid,
-    .pricing-grid,
-    .testimonial-grid {
-        display: block;
-    }
+  .card,
+  .price-card,
+  .testimonial {
+    box-shadow: none;
+    border: 1px solid #999999;
+    margin-bottom: 1rem;
+    break-inside: avoid;
+  }
 
-    .card,
-    .price-card,
-    .testimonial {
-        border: 1px solid #999;
-        margin-bottom: 20px;
-        padding: 15px;
-        page-break-inside: avoid;
-    }
+  .footer {
+    background: #ffffff;
+    color: #000000;
+    border-top: 1px solid #999999;
+  }
 
-    /* Images */
-    img {
-        max-width: 220px;
-        height: auto;
-        display: block;
-        margin: 15px auto;
-    }
+  .footer h3,
+  .footer-links a {
+    color: #000000;
+  }
 
-    /* Contact Form */
-    input,
-    textarea {
-        border: 1px solid #000;
-    }
-
-    /* Headings */
-    h1 {
-        font-size: 24pt;
-    }
-
-    h2 {
-        font-size: 18pt;
-        margin-top: 20px;
-    }
-
-    h3 {
-        font-size: 15pt;
-    }
-
-    p,
-    li {
-        font-size: 11pt;
-    }
-
-    /* Page Margin */
-    @page {
-        margin: 1.5cm;
-    }
-
+  a[href^="http"]::after {
+    content: " (" attr(href) ")";
+    font-size: 0.85em;
+  }
 }
